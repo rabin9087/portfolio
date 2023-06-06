@@ -1,0 +1,9 @@
+.navbar{
+background-color: crimson;
+padding: 20px;
+}
+.content {
+    margin: 10px;
+    font-size: larger;
+    font-weight: bold;
+}
