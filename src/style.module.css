@@ -1,0 +1,147 @@
+.heading {
+    color: blue;
+    text-align: center;
+    padding: 10px;
+}
+
+.teamInput {
+    text-align: center;
+    color: aqua;
+    background-color:black;
+    border: 2px solid greenyellow;
+    font-size: 20px;
+    font-style: bold;
+    padding: 10px;
+    margin: 10px;
+    height: auto;
+    width: auto;
+}
+.teamsName {
+    text-align: center;
+    background-color:magenta;
+}
+
+.numberOfOver {
+    background-color: black;
+    color:aqua ;
+    margin: 10px;
+    padding: 10px;
+    font-style: bold;
+}
+
+.teamButton {
+    width: auto;
+    font-size: 20px;
+    margin: 10px;
+    padding: 10px;
+    color: aqua;
+    background-color: black;
+    border-radius: 2px;
+}
+
+.registeredTeamsName {
+    background-color: black;
+    color: white;
+    padding-top: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.addPlayers {
+    background-color: aqua;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.inputPlayersName{
+    background-color: black;
+    text-align: left;
+    color: aqua;
+    background-color:black;
+    border: 2px solid greenyellow;
+    font-size: 20px;
+    font-style: bold;
+    margin: 10px;
+    padding: 5px;
+    height: 30px;
+    width: auto;
+}
+
+.addPlayerHeading { 
+    color: blue;
+    text-align: left;
+    padding: 5px;
+}
+
+.teamGroup {
+    margin: 10px;
+    border: 2px solid tomato;
+    padding: 10px;
+}
+.display{
+    display:block;
+}
+.displayNone{
+    display:none;
+}
+.numOfOver {
+
+}
+
+.playersNameTeamA {
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid greenyellow;
+}
+.playernameHeading {
+    color: black;
+
+}
+
+.teamPlayerList {
+    margin: 10px;
+    font-size: 20px;
+    color: blue;
+}
+
+.deletebutton {
+    border: 1px solid black;
+    height: auto;
+    margin: 2px;
+    margin-left: 10px;
+    align-self:  end;
+    background-color: tomato;
+    width: auto;
+    font-size: 10px;
+    color: white;
+    border-radius: 4px;
+    padding: 5px;
+}
+.addPlayers{
+    color: black;
+    margin: 5px;
+    border: 2px solid blue;
+    padding: 5px;
+}
+
+.date {
+    text-align: right;
+    font-size: 15px;
+    font-style: italic;
+    margin-right: 20px;
+}
+
+.startGameButton {
+    width: auto;
+    font-size: 20px;
+    margin: 10px;
+    padding: 10px;
+    color: aqua;
+    background-color: black;
+    border-radius: 2px;
+    text-align: center;
+}
+.startGameDiv {
+    text-align: center;
+}
