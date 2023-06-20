@@ -1,8 +1,8 @@
 import React, { createContext, useState } from 'react'
 import styles from '../../style.module.css';
 import AddPlayers from '../../Components/AddPlayers';
-import StartGame from '../../Components/StartGame';
-const AddTeam = createContext();
+
+const teamName = createContext();
 
 const Home = () => {
 
@@ -81,8 +81,7 @@ const Home = () => {
       </div>
 
       </div>
-
-      <StartGame />
+      <br />
       </div>  
 
     <div className={formDisplay?styles.displayNone : styles.display}>
@@ -116,8 +115,13 @@ const Home = () => {
             </div>     
         )
       })}
+
       <div>
-      <AddPlayers team = {team} setToss = {setToss} setBattingOrBowling={setBattingOrBowling}/>
+        {/* <button className= {styles.teamButton} onClick={() => addPlayerNevigate('/addPlayers')}>Next</button> */}
+     <teamName.Provider value={team}> 
+     <AddPlayers/>
+     </teamName.Provider>
+      
       </div>
       
     </div>
@@ -126,4 +130,4 @@ const Home = () => {
   )
   }
 export default Home;
-export {AddTeam};
+export {teamName};

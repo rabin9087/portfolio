@@ -1,18 +1,17 @@
-import React, { createContext, useState } from 'react'
-import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import styles from '../style.module.css';
 import shortid from 'shortid';
-import {  Link} from 'react-router-dom';
-import StartGame from './StartGame';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { teamName } from '../Pages/Home/Home';
 
 
-const AddPlayers = ({team, setToss, setBattingOrBowling}) => {
+const AddPlayers = () => {
 
-  const [formDisplay, setFormDisplay]=useState(true);
+  const teams = useContext(teamName)
+  const navigateStartGame = useNavigate();
 
     const [players, setPlayers] = useState ({
         addPlayerteamA: '',
@@ -89,24 +88,13 @@ const AddPlayers = ({team, setToss, setBattingOrBowling}) => {
         theme:"colored"
       });
     }
-
-    const  initiateStartGame=(e)=>
- {
-  e.preventDefault();
-  if(formDisplay){
-  setFormDisplay(false)
-  } else { 
-    setFormDisplay(true)
-    
- }
-}
-    
+   
   return (
     <div className={styles.addPlayers}>
-      <div className={formDisplay?styles.display:styles.displayNone}>
+      <div >
         <div className={styles.teamGroup}>
         <form action="">
-        <h1 className={styles.addPlayerHeading}>Add players to {team.teamA}</h1>
+        <h1 className={styles.addPlayerHeading}>Add players to {teams.teamA}</h1>
         <input className={styles.inputPlayersName}
          name='A'
          value={players.addPlayerteamA}
@@ -121,7 +109,7 @@ const AddPlayers = ({team, setToss, setBattingOrBowling}) => {
           {
             teamAPlayers.map((playersA,index) => {
                 return(
-                  <div key={playersA.id1} className={styles.playername}>
+                  <div key={playersA.id1} className={styles.playernameHeading}>
                     {index +1 }. {playersA.nameA} 
                     <button className={styles.deletebutton} onClick={() => deletePlayerA(playersA)}>Delete</button>
                     </div>
@@ -130,9 +118,10 @@ const AddPlayers = ({team, setToss, setBattingOrBowling}) => {
           }
         </div>
         </div>
+
         <div className={styles.teamGroup}>
             <form action="">
-        <h1 className={styles.addPlayerHeading} >Add players to {team.teamB}</h1>
+        <h1 className={styles.addPlayerHeading} >Add players to {teams.teamB}</h1>
 
         <input className={styles.inputPlayersName}
          name='B'
@@ -157,26 +146,10 @@ const AddPlayers = ({team, setToss, setBattingOrBowling}) => {
         </div>
         </div>
         <div className= {styles.startGameDiv}>
-       
-        {/* <button className= {styles.startGameButton} type='submit' onClick={initiateStartGame}>Start Game</button> */}
-
-        <Link className='content' to="/startgame">
-        <button className= {styles.startGameButton} type='submit'>Start Game</button>
-        </Link>
+        <button className= {styles.startGameButton} type='submit' onClick={() => navigateStartGame('/startGame')}>Start Game</button>
         </div>
         </div>
 
-        <div className="">
-			        <Routes>
-                {/* <Switch> */}
-         			<Route path="/startgame" element={ <StartGame 
-                team ={team} setToss = {setToss} setBattingOrBowling = {setBattingOrBowling} 
-                setTeamAPlayers = {setTeamAPlayers} setTeamBPlayers = {setTeamBPlayers}
-                />
-              }/>
-              {/* </Switch> */}
-              </Routes>
-		</div>
               <ToastContainer/>
     </div>
   )
