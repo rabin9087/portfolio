@@ -49,6 +49,7 @@ const AddPlayers = () => {
     const handelSubmitTeamA = (e) => {
       e.preventDefault();
       if(players.addPlayerteamA !== ''){
+        console.log()
       setTeamAPlayers([...teamAPlayers, {nameA: players.addPlayerteamA, id1: shortid.generate()}])
       setPlayers( {
         addPlayerteamA: '',
@@ -64,6 +65,7 @@ const AddPlayers = () => {
       e.preventDefault();
       if(players.addPlayerteamB !== ''){
       setTeamBPlayers([...teamBPlayers, {nameB: players.addPlayerteamB, id2: shortid.generate()}])
+      
       setPlayers( {
         addPlayerteamA: '',
         addPlayerteamB: ''
