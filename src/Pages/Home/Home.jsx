@@ -1,45 +1,58 @@
-import React, { createContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from '../../style.module.css';
-import AddPlayers from '../../Components/AddPlayers';
+import Login from '../Login';
+import { useUser } from '../../Context/UserContext';
+import { TeamContext } from '../../Context/TeamContext';
+import { useNavigate } from 'react-router-dom';
 
-const teamName = createContext();
 
 const Home = () => {
 
-  const [team, setTeam] = useState({
-    teamA: '',
-    teamB: '',
-    over:20
-  });
+  const addPlayer = useNavigate();
+
+  const {team, updateTeamsStatus} = useContext(TeamContext);
+
+  const handleTeamName = (e) => {
+    const{name, value} = e.target;
+    updateTeamsStatus( name, value)
+    }
+  
+  const {toss, setToss} = useContext(TeamContext);
+  const {teamA, teamB, over} = team;
   const [formDisplay, setFormDisplay]=useState(true);
   const [registeredTeam, setRegisteredTeam] = useState([]);
+  
+  const {battingOrBowling, setBattingOrBowling} = useContext(TeamContext);
 
-  const [toss, setToss] = useState('');
-  const [battingOrBowling, setBattingOrBowling] = useState();
-
- const handleTeamName = (e) => {
-  const name = e.target.name;
-  const value = e.target.value;
-    setTeam({...team, [name]: value})
+  const handleTossWon = (e) => {
+    setToss(e.target.value);
   }
 
+   
  const  nextAddPlayers=(e)=>
  {
   e.preventDefault();
-  const newTeam = {...team, id: new Date().getTime.toString}
-  setRegisteredTeam([...registeredTeam, newTeam])
-
-  if(team.teamA === '' || team.teamB === '' || team.over === 0){
-  setFormDisplay(true)
+  if(teamA !== '' && teamB !== ''  && over !== 0) { 
+    const newTeam = {...team, id: new Date().getTime.toString}
+    setRegisteredTeam([...registeredTeam, newTeam])
+  
+    if(team.teamA === '' || team.teamB === '' || team.over === 0){
+    setFormDisplay(true)
+    } else {
+      setFormDisplay(false)
+   }
   } else {
-    setFormDisplay(false)
- }
+    alert('Please Enter all Teams name')
+  }
  
  }
-  return (
-    <div>
+
+ const isUserLogedIn = useUser();
+
+  return (<div>
+       {isUserLogedIn ? <div>
       <div className={formDisplay?styles.display:styles.displayNone}>
-     
+      
       <div>
         <div className= {styles.teamsName}>
         <h1 className={styles.heading}>Enter the teams Name</h1>
@@ -47,7 +60,7 @@ const Home = () => {
           autoComplete='off'
           type='text'
           name='teamA'
-          onChange={handleTeamName}
+          onChange={(handleTeamName)}
           value={team.teamA} 
           placeholder='Enter Your team name' />
 
@@ -95,39 +108,40 @@ const Home = () => {
         return (
             <div key={registeredTeamName.id}>
               
-              <h1 className={styles.date}>Date: {date} - {month} - {year}</h1>
+              <h1 className={styles.date}>Date: {date} - {1 + month} - {year}</h1>
                 <h1 > {registeredTeamName.teamA} VS {registeredTeamName.teamB} </h1>
                 <h1 > {registeredTeamName.over}  Over Game</h1>
 
                <label className= {styles.toss} > Toss Won By: </label>
-               <select className={styles.teamButton} value={toss} onChange={e => setToss(e.target.value) }>
-               <option value= ''>{registeredTeamName.teamA} or {registeredTeamName.teamB}</option>
+                
+               <select className={styles.teamButton} value={toss} onChange={handleTossWon}>
+               <option value= ''>Select a team</option>
                  <option value= {registeredTeamName.teamA}>{registeredTeamName.teamA}</option>
                  <option value={registeredTeamName.teamB}>{registeredTeamName.teamB}</option>
-        </select>
+               </select>
+
            <br />
         <label className= {styles.toss} > Selected to: </label>
                <select className={styles.teamButton} value={battingOrBowling} onChange={e => setBattingOrBowling(e.target.value) }>
-               <option value= ''>Batting or Bowling</option>
+               {/* <option value= ''>Batting or Bowling</option> */}
                  <option value= 'batting'>Batting First</option>
                  <option value='bowling'>Bowling First</option>
         </select>
+
+            <div>
+            <button className= {styles.startGameButton} onClick={() => addPlayer('/addPlayers')}>Next</button>
+              </div>
+         
             </div>     
         )
       })}
 
-      <div>
-        {/* <button className= {styles.teamButton} onClick={() => addPlayerNevigate('/addPlayers')}>Next</button> */}
-     <teamName.Provider value={team}> 
-     <AddPlayers/>
-     </teamName.Provider>
-      
-      </div>
-      
     </div>
     </div>
+    </div> : <Login/>}
+    
+
     </div>
   )
   }
 export default Home;
-export {teamName};

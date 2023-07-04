@@ -3,21 +3,41 @@ import React, { useState } from 'react'
 import styles from '../style.module.css';
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import Register from './Register';
+import 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useUser, useUserUpdate } from '../Context/UserContext';
+
  const Login = () => {
 
   const navigate = useNavigate();
 
+    const [errorMessage, setErrorMessage] = useState('')
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const [login, setLoging] = useState([]);
+    const updateLogedInStatus = useUserUpdate();
+    const isUserLogedIn = useUser();
 
     const submitLogin = (e) => {
         e.preventDefault();
-        const logInData = {username: username, password: password}
-        setLoging([logInData])
-       console.log('username:', username)
-       console.log('password:', password)
+
+        const auth = getAuth();
+          signInWithEmailAndPassword(auth, username, password)
+          .then((userCredential) => {
+            
+            updateLogedInStatus();
+
+            
+            // Signed in 
+            const user = userCredential.user;
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMessage(alert("Please Enter valid email and password"))
+            console.log(errorCode, errorMessage)
+          });
     }
   return (
 
@@ -52,6 +72,8 @@ import Register from './Register';
         <button  className= {styles.teamButton} type='submit'>Login</button>
   
         <button className= {styles.teamButton} onClick={() => navigate('/register')}>Register</button>
+        <br />
+        <p>{errorMessage}</p>
 
         </div>
         

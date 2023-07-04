@@ -78,6 +78,7 @@
     border: 2px solid tomato;
     padding: 10px;
     background-color: hotpink;
+    text-align: center;
 }
 .display{
     display:block;
@@ -167,8 +168,7 @@
 }
 
 .registerInput {
-    text-align: left;
-    margin-left: 20px;
+    text-align: center;
     width: auto;
 }
 

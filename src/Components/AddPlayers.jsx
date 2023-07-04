@@ -5,22 +5,28 @@ import styles from '../style.module.css';
 import shortid from 'shortid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { teamName } from '../Pages/Home/Home';
+import { TeamName } from '../Pages/Home/Home';
+import { TeamContext } from '../Context/TeamContext';
 
 
 const AddPlayers = () => {
-
-  const teams = useContext(teamName)
+  //Using Navigation to jump into another file
   const navigateStartGame = useNavigate();
+  const goToHome = useNavigate();
+
+  //Usning useContext To get teams name and value
+  const {team} = useContext(TeamContext)
 
     const [players, setPlayers] = useState ({
         addPlayerteamA: '',
         addPlayerteamB: '',
     })
 
-    const [teamAPlayers, setTeamAPlayers] = useState([]);
-    const [teamBPlayers, setTeamBPlayers] = useState([]);
+    const {teamAPlayers, setTeamAPlayers} = useContext(TeamContext);
+    const {teamBPlayers, setTeamBPlayers} = useContext(TeamContext);
 
+    console.log('TeamAPlayers',teamAPlayers)
+    console.log('TeamBPlayers',teamBPlayers)
     const inputPlayers = (e) => {
       const name = e.target.name;
       const value = e.target.value;
@@ -94,7 +100,7 @@ const AddPlayers = () => {
       <div >
         <div className={styles.teamGroup}>
         <form action="">
-        <h1 className={styles.addPlayerHeading}>Add players to {teams.teamA}</h1>
+        <h1 className={styles.addPlayerHeading}>Add players to {team.teamA}</h1>
         <input className={styles.inputPlayersName}
          name='A'
          value={players.addPlayerteamA}
@@ -121,7 +127,7 @@ const AddPlayers = () => {
 
         <div className={styles.teamGroup}>
             <form action="">
-        <h1 className={styles.addPlayerHeading} >Add players to {teams.teamB}</h1>
+        <h1 className={styles.addPlayerHeading} >Add players to {team.teamB}</h1>
 
         <input className={styles.inputPlayersName}
          name='B'
@@ -146,6 +152,7 @@ const AddPlayers = () => {
         </div>
         </div>
         <div className= {styles.startGameDiv}>
+        <button  className= {styles.startGameButton} onClick={() => goToHome('/home')}>Previous</button>
         <button className= {styles.startGameButton} type='submit' onClick={() => navigateStartGame('/startGame')}>Start Game</button>
         </div>
         </div>

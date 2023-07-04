@@ -4,8 +4,13 @@ import { dataref, storage } from '../Connection/Config';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import firebase from '../Connection/Config';
+import 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const Register = () => {
+
+    const goToLogIn = useNavigate();
 
     const navigateLogin = useNavigate();
     const [register, setRegister] = useState({
@@ -29,27 +34,45 @@ const Register = () => {
     const submitRegister = async (e) => {
         e.preventDefault();
         if ( fName && lName && userName && email && phone && password){
-            dataref.ref("userRegister").push().set({
-                FirstName: fName,
-                LastName: lName,
-                UserName: userName,
-                Email: email,
-                Phone: phone,
-                Password: password
-            }).catch(alert)
+        const auth = getAuth();
+        
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(user)
+          alert("signedup");
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(password)
+          // ..
+        });
 
-            console.log(register)
+        dataref.ref("user").push().set({
+            FirstName: fName,
+            LastName: lName,
+            UserName: userName,
+            Email: email,
+            Phone: phone,
+            Password: password
+        }).catch(alert)
 
-            const imageref = storage.ref('/image/' + image.name).put(image)
-            .on("state_changed", alert("success"), alert);
+        console.log(register)
 
-            imageref();
-         
+        const imageref = storage.ref('/image/' + image.name).put(image)
+        .on("state_changed", alert("success"), alert);
+
+        imageref();
+
         navigateLogin('/logIn')
         toast.success("Register successful", {
             position:"top-center",
            theme:"colored"
           });
+
         } else{
             alert("Please fill all the data")
 
@@ -137,10 +160,14 @@ const Register = () => {
                     </div>
                     
                     <div>
+                 
+                    <button  className= {styles.teamButton} onClick={() =>goToLogIn('/logIn')}>Log In</button>
                     <button  className= {styles.teamButton} type='submit'>Sign up</button>
                     </div>
              </div>
             </form>
+
+           
         </div>
     <ToastContainer/>
     </div>

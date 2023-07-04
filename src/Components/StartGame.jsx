@@ -1,31 +1,157 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Col, Container, Row } from 'react-bootstrap';
-import { json } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import styles from '../style.module.css';
-import { teamName } from '../Pages/Home/Home';
+import { TeamContext } from '../Context/TeamContext';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import { Row, Col } from 'react-bootstrap'; // Import Row and Col components from react-bootstrap
 
 const StartGame = () => {
-  const teams = useContext(teamName)
+  
+  const addPlayer = useNavigate();
 
-  let url1 = 'https://jsonplaceholder.typicode.com/todos/1';
-  let url2 = 'https://jsonplaceholder.typicode.com/posts';
-  let cricketscore = 'http://static.cricinfo.com/rss/livescores.xml';
-  const liveurl = 'https://cors-anywhere.herokuapp.com/https://www.espncricinfo.com/series/8048/game/1237180/delhi-capitals-vs-sunrisers-hyderabad-qualifier-2-indian-premier-league-2020-21'
+  const {team} = useContext(TeamContext)
 
-  const [data, setData] = useState([[]]);
+  const {teamAPlayers} = useContext(TeamContext);
+  const {teamBPlayers} = useContext(TeamContext);
 
-  const getDataFromApi = async (e) => {
-    await fetch(url2)
-    .then((response) => {
-      return response.json()
-    })
-    .then((value) => {
-      setData(value)
-       console.log(value)
-    }).catch(err => {
-      console.log(err)
-    })
+  const {battingOrBowling} = useContext(TeamContext);
+
+  //toss is equal to toss won team name
+  //let tossWon
+  const {toss} = useContext(TeamContext);
+  // if (toss === '' && (battingOrBowling==='bowling' || toss === '') ){
+  //   tossWon = team.teamA
+  // } else {
+  //   tossWon= toss
+  // }
+  // console.log('Batting team', toss)
+
+  const [run, setRun] = useState(0);
+ const [wicket, setWicket] = useState(0)
+
+
+ // batting variables
+ const [runScored, setRunScored] = useState(0)
+ const [ballFaced, setballFaced] = useState(0)
+ const [fourHit, setFourHit] = useState(0)
+ const [sixHit, setSixHit] = useState(0)
+
+ //bowling variables
+ const [overBowled, setOverBowled] = useState(0.0)
+ const [runGiven, setRunGiven] = useState(0);
+ const [median, setMedian] = useState(0);
+ const [wicketTaken, setWicketTaken] = useState(0);
+  
+    let battingFirst
+    let battingTeam
+    let bowlingTeam;
+
+  if (battingOrBowling === 'batting' && toss === team.teamA){
+    battingFirst = team.teamA;
+    battingTeam = teamAPlayers;
+    bowlingTeam = teamBPlayers;
+
+  } else if (battingOrBowling === 'bowling' && toss === team.teamA){
+    battingFirst = team.teamB
+    battingTeam = teamBPlayers;
+    bowlingTeam = teamAPlayers;
   }
+  else if(battingOrBowling === 'batting' && toss === team.teamB){
+    battingFirst = team.teamB 
+    battingTeam = teamBPlayers;
+    bowlingTeam = teamAPlayers; 
+  }  else if (battingOrBowling === 'bowling' && toss === team.teamB){
+    battingFirst = team.teamA;
+    battingTeam = teamAPlayers;
+    bowlingTeam = teamBPlayers;
+  }
+
+  // const battingteamName =() => {
+
+  //   if(battingFirst === team.teamA){
+  //     //battingTeam = teamAPlayers;
+  //     console.log("Batting team Name: ", teamAPlayers)
+  //     return(
+        
+  //       teamAPlayers.map((playersA, index) =>{
+  //         return(
+  //          <option key={playersA.id1} value={playersA.nameA}>
+  //           {playersA.nameA}
+  //          </option>
+  //         )
+  //     })
+  //     )
+  //   } else if (battingFirst === team.teamB){
+  //     return (
+  //       teamBPlayers.map((playersB, index) =>{
+  //         return(
+  //          <option key={playersB.id2} value={playersB.nameB}>
+  //           {playersB.nameB}
+  //          </option>
+  //         )
+  //     })
+  //     )
+  //   }
+  // }
+  
+
+  
+  // if (battingFirst === team.teamA && battingOrBowling === 'batting') {
+  //   battingTeam = teamAPlayers;
+  //   bowlingTeam = teamBPlayers;
+  // } else if(battingFirst === team.teamB){
+  //   battingTeam = teamBPlayers
+  //   bowlingTeam = teamAPlayers;
+  // }
+
+//   console.log('battingteam:' ,battingTeam)
+
+
+
+// if(battingFirst === team.teamA){
+//   bowlingTeam = teamBPlayers
+// } else if(battingFirst === team.teamB){
+//   bowlingTeam = teamAPlayers;
+// }
+ 
+
+  const [selectedBatsmanName, setselectedBatsmanName] = useState('');
+
+  const handleSelectBatsMan = (event) => {
+    setselectedBatsmanName(event.target.value);
+  };
+
+  const [selectedBowlersName, setselectedBowlersName] = useState('')
+
+  const handleSelectBowler = (e) => {
+    setselectedBowlersName(e.target.value)
+  }
+
+ const out = () => {
+  setWicket(wicket + 1)
+ }
+
+ const bye = () => {
+  
+ }
+
+ const lb = () => {
+  
+ }
+
+ const wide = () => {
+  setRun(run + 1)
+ }
+
+ const nb = () => {
+  setRun(run + 1)
+  
+ }
+ 
+ const addRun =(value) => {
+  setRun(value + run)
+  console.log(run)
+ }
 
   useEffect(() => {
   //  getScore();
@@ -34,47 +160,129 @@ const StartGame = () => {
   return (
     <>
     <div>
-      <h1>Get Live Score data</h1>
+      
 <br />
       
     </div>
-
-    <h1> Start Game</h1>
-     <h1>TeamA vs TeamB</h1>
-     <div>
-      <Container>
-        <Row className='rows'>
-          <Col sm = {6}><h1> TeamA</h1> </Col>
-          <Col sm = {6}>Score:</Col>
-        </Row>
-        </Container>
-     </div>
+    <h1 className={styles.teamGroup}>{team.teamA} vs {team.teamB}</h1>
+    <h1>Toss won by {toss} and selected {battingOrBowling} first</h1>
      
-      <div>
-        <h1>Batting</h1>
+     <div>
+    <h1>Batting Team: {battingFirst}</h1>
+          
+          <div>
+          Select  strike batsman:
+            <select value={selectedBatsmanName} onChange={handleSelectBatsMan}>
 
-      </div>
-      
-    <div>
-    <button onClick={getDataFromApi} type='button'>Get Data From Api</button>
-      {console.log(data)}
-      {data.map((obj) =>{
-        return (
-          <p  key={obj.id} className={styles.data}>
-            ID: {obj.id}
-            <br />
-            userID: {obj.userId}
-            <br />
-            Title: {obj.title}
-            <br />
-            Body: {obj.body}
-            </p>
-        )
-       
-      })}
+              {battingTeam.map((playersA, index) =>{
+                  return(
+                   <option key={playersA.id1} value={playersA.nameA}>
+                    {playersA.nameA}
+                   </option>
+                  )
+              })}
+
+            </select>
+            &nbsp; &nbsp;
+          Select non-strike batsman:
+          <select value={selectedBatsmanName} onChange={handleSelectBatsMan}>
+             {/* (battingTeam === team.teamB)  */}
+
+             {battingTeam.map((playersB, index) =>{
+                  return(
+                   <option key={playersB.id2} value={playersB.nameB}>
+                    {playersB.nameB}
+                   </option>
+                  )
+              })}
+            </select>
+          </div>
+              <br />
+          <div className={styles.teamGroup}>
+            <Row>
+              <Col>Batsman Name</Col>
+              <Col>Run</Col>
+              <Col>Ball</Col>
+              <Col>4's</Col>
+              <Col>6's</Col>
+            </Row>
+            <Row>
+            <Col>{selectedBatsmanName}</Col>
+              <Col>{runScored}</Col>
+              <Col>{ballFaced}</Col>
+              <Col>{fourHit}</Col>
+              <Col>{sixHit}</Col>
+            </Row>
+          </div>
+
+
+         <h1> Select  Bowler:</h1>
+          <div>
+          Select  Bowler:
+            <select value={selectedBowlersName} onChange={handleSelectBowler}>
+
+          {bowlingTeam.map((playersB, index) =>{
+            console.log('BowlingTeamMap: ')
+              return(
+               <option key={playersB.id2} value={playersB.nameB}>
+                {playersB.nameB}
+               </option>
+              )
+          })}
+            </select>
+          </div>
+
+          <br />
+          <div className={styles.teamGroup}>
+            <Row>
+              <Col>Bowler Name</Col>
+              <Col>OVER</Col>
+              <Col>RUN</Col>
+              <Col>MEDIAN</Col>
+              <Col>Wicket</Col>
+            </Row>
+            <Row>
+            <Col>{selectedBowlersName}</Col>
+              <Col>{overBowled}</Col>
+              <Col>{runGiven}</Col>
+              <Col>{median}</Col>
+              <Col>{wicketTaken}</Col>
+            </Row>
+          </div>
+
+     </div>  
+     <br /> 
+
+     <h1>Total: {run}-{wicket} </h1>
+
+    <div className={styles.teamGroup}>
+
+      <Row>
+        <Col><button onClick={() => addRun(0)}>0</button> </Col>
+        <Col><button onClick={() => addRun(1)}>1</button></Col>
+        <Col><button  onClick={() => addRun(2)}>2</button></Col>
+      </Row>
+
+      <Row>
+        <Col><button onClick={() => addRun(3)}>3</button> </Col>
+        <Col><button onClick={() => addRun(4)}>4</button></Col>
+        <Col><button onClick={() => addRun(6)}>6</button></Col>
+      </Row>
+
+      <Row>
+        <Col><button onClick={out}>OUT</button> </Col>
+        <Col><button onClick={bye}>BYE</button></Col>
+        <Col><button onClick={lb}>LB</button></Col>
+      </Row>
+
+      <Row>
+        <Col><button onClick={wide}>WIDE</button> </Col>
+        <Col><button onClick={nb}>NB</button></Col>
+
+      </Row>
     </div>
 
-     
+    <button className= {styles.startGameButton} onClick={() => addPlayer('/addPlayers')}>Previous</button>
 
       
     </>
