@@ -23,6 +23,9 @@ export function TeamProvider({ children }) {
 	const [ teamAPlayers, setTeamAPlayers ] = useState([]);
 	const [ teamBPlayers, setTeamBPlayers ] = useState([]);
 
+	const [ run, setRun ] = useState(0);
+	const [ wicket, setWicket ] = useState(0);
+
 	return (
 		<TeamContext.Provider
 			value={{
@@ -40,7 +43,13 @@ export function TeamProvider({ children }) {
 				setTeamAPlayers,
 
 				teamBPlayers,
-				setTeamBPlayers
+				setTeamBPlayers,
+
+				run,
+				setRun,
+
+				wicket,
+				setWicket
 			}}
 		>
 			{children}

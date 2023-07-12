@@ -50,7 +50,7 @@ const AddPlayers = () => {
       e.preventDefault();
       if(players.addPlayerteamA !== ''){
         console.log()
-      setTeamAPlayers([...teamAPlayers, {nameA: players.addPlayerteamA, id1: shortid.generate()}])
+      setTeamAPlayers([...teamAPlayers, {name: players.addPlayerteamA, id: shortid.generate()}])
       setPlayers( {
         addPlayerteamA: '',
         addPlayerteamB: ''
@@ -64,7 +64,7 @@ const AddPlayers = () => {
     const handelSubmitTeamB = (e) => {
       e.preventDefault();
       if(players.addPlayerteamB !== ''){
-      setTeamBPlayers([...teamBPlayers, {nameB: players.addPlayerteamB, id2: shortid.generate()}])
+      setTeamBPlayers([...teamBPlayers, {name: players.addPlayerteamB, id: shortid.generate()}])
       
       setPlayers( {
         addPlayerteamA: '',
@@ -117,8 +117,8 @@ const AddPlayers = () => {
           {
             teamAPlayers.map((playersA,index) => {
                 return(
-                  <div key={playersA.id1} className={styles.playernameHeading}>
-                    {index +1 }. {playersA.nameA} 
+                  <div key={playersA.id} className={styles.playernameHeading}>
+                    {index +1 }. {playersA.name} 
                     <button className={styles.deletebutton} onClick={() => deletePlayerA(playersA)}>Delete</button>
                     </div>
                 )
@@ -144,8 +144,8 @@ const AddPlayers = () => {
           {
             teamBPlayers.map((playersB,index) => {
                 return(
-                  <div key={playersB.id2} className={styles.playernameHeading} >
-                  {index +1 }. {playersB.nameB} 
+                  <div key={playersB.id} className={styles.playernameHeading} >
+                  {index +1 }. {playersB.name} 
                   <button className={styles.deletebutton} onClick={() => deletePlayerB(playersB)}>Delete</button>
                     </div>
                 )

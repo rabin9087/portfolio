@@ -6,7 +6,7 @@ import { TeamContext } from '../../Context/TeamContext';
 import { useNavigate } from 'react-router-dom';
 
 
-const Home = () => {
+const Score = () => {
 
   const addPlayer = useNavigate();
 
@@ -144,4 +144,4 @@ const Home = () => {
     </div>
   )
   }
-export default Home;
+export default Score;
